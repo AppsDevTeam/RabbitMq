@@ -1,5 +1,5 @@
 {
-	"name": "kdyby/rabbitmq",
+	"name": "peldax/rabbitmq",
 	"type": "library",
 	"description": "Integrates php-amqplib with RabbitMq and Nette Framework",
 	"keywords": ["nette", "kdyby", "rabbitmq", "rabbit", "bunny", "amqp", "messaging", "message", "queue"],
@@ -21,10 +21,6 @@
 		"nette/utils": "^3.0",
 
 		"php-amqplib/php-amqplib": "~2.6.2"
-	},
-	"support": {
-		"email": "filip@prochazka.su",
-		"issues": "https://github.com/Kdyby/RabbitMq/issues"
 	},
 	"autoload": {
 		"psr-0": {
