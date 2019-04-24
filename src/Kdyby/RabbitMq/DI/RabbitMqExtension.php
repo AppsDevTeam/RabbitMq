@@ -496,7 +496,7 @@ class RabbitMqExtension extends Nette\DI\CompilerExtension
 
 	protected function mergeConfig($config, $defaults)
 	{
-		return Config\Helpers::merge($config, $this->compiler->getContainerBuilder()->expand($defaults));
+		return Config\Helpers::merge($config, $defaults);
 	}
 
 
