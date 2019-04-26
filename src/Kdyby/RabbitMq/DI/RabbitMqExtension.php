@@ -202,7 +202,7 @@ class RabbitMqExtension extends Nette\DI\CompilerExtension
 						$meta['consumers'],
 						$meta['rpcServers'],
 					])
-					->setInject(FALSE)
+					->addTag(Nette\DI\Extensions\InjectExtension::TAG_INJECT, false)
 					->setAutowired(FALSE);
 
 				$connection->addSetup('injectPanel', ['@' . $panelService]);
@@ -386,10 +386,7 @@ class RabbitMqExtension extends Nette\DI\CompilerExtension
 
 	private function extendConsumerFromProducer(&$consumerName, $config)
 	{
-		if (isset($config[Config\Helpers::EXTENDS_KEY])) {
-			$producerName = $config[Config\Helpers::EXTENDS_KEY];
-
-		} elseif ($m = Nette\Utils\Strings::match($consumerName, '~^(?P<consumerName>[^>\s]+)\s*\<\s*(?P<producerName>[^>\s]+)\z~')) {
+		if ($m = Nette\Utils\Strings::match($consumerName, '~^(?P<consumerName>[^>\s]+)\s*\<\s*(?P<producerName>[^>\s]+)\z~')) {
 			$consumerName = $m['consumerName'];
 			$producerName = $m['producerName'];
 
@@ -504,7 +501,7 @@ class RabbitMqExtension extends Nette\DI\CompilerExtension
 	protected static function fixCallback($callback)
 	{
 		list($callback) = self::filterArgs($callback);
-		if ($callback instanceof Nette\DI\Statement && substr_count($callback->entity, '::') && empty($callback->arguments)) {
+		if ($callback instanceof Nette\DI\Statement && is_string($callback->entity) && substr_count($callback->entity, '::') && empty($callback->arguments)) {
 			$callback = explode('::', $callback->entity, 2);
 		}
 
@@ -519,7 +516,7 @@ class RabbitMqExtension extends Nette\DI\CompilerExtension
 	 */
 	protected static function filterArgs($statement)
 	{
-		return Nette\DI\Compiler::filterArguments([is_string($statement) ? new Nette\DI\Statement($statement) : $statement]);
+		return Nette\DI\Helpers::filterArguments([is_string($statement) ? new Nette\DI\Statement($statement) : $statement]);
 	}
 
 
